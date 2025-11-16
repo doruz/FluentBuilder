@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace FluentBuilder.Url
+﻿namespace FluentBuilder.Url
 {
     public class UrlBuilder : ISegmentBuilder, IQueryStringBuilder, IBaseUrlBuilder
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FluentBuilder.Url
+﻿namespace FluentBuilder.Url
 {
     public interface ISegmentBuilder : IQueryStringBuilder, IBaseUrlBuilder
     {

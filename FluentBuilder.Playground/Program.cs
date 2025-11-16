@@ -1,5 +1,4 @@
-﻿using System;
-using FluentBuilder.Url;
+﻿using FluentBuilder.Url;
 
 namespace FluentBuilder.Playground
 {
