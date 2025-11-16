@@ -4,7 +4,8 @@ An implementation of the fluent builder design pattern for creating urls.
 
 ```csharp
 UrlBuilder.Http("www.travel.eu")
-    .WithSegment("countries").WithSegment("romania")
+    .WithSegment("countries")
+    .WithSegment("romania")
     .WithQuery("type", "nature")
     .WithQuery("lang", "en")
     .ToUrl();
@@ -14,7 +15,8 @@ UrlBuilder.Http("www.travel.eu")
 
 ```csharp
 UrlBuilder.Https("www.travel.eu")
-    .WithSegment("countries").WithSegment("romania")
+    .WithSegment("countries")
+    .WithSegment("romania")
     .WithQuery("type", "nature")
     .WithQuery("lang", "en")
     .ToUrl();
