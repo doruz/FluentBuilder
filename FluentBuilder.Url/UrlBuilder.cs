@@ -1,21 +1,21 @@
 ﻿namespace FluentBuilder.Url;
 
-public class UrlBuilder : ISegmentBuilder, IQueryStringBuilder, IBaseUrlBuilder
+public class UrlBuilder : IUrlBuilder
 {
-    private readonly string _baseAddress;
+    private readonly string _address;
     private readonly List<string> _segments = [];
-    private readonly SortedDictionary<string, string> _queryStrings = [];
+    private readonly SortedDictionary<string, string> _queries = [];
 
     private UrlBuilder(string protocol, string address)
     {
         protocol.EnsureIsNotEmpty(nameof(protocol));
         address.EnsureIsNotEmpty(nameof(address));
 
-        _baseAddress = $"{protocol}://{address.ToLower()}";
+        _address = $"{protocol}://{address.ToLower()}";
     }
 
-    public static UrlBuilder Http(string address) => new("http", address);
-    public static UrlBuilder Https(string address) => new("https", address);
+    public static UrlBuilder Http(string host) => new("http", host);
+    public static UrlBuilder Https(string host) => new("https", host);
 
     public ISegmentBuilder WithSegment(string segment)
     {
@@ -24,12 +24,12 @@ public class UrlBuilder : ISegmentBuilder, IQueryStringBuilder, IBaseUrlBuilder
         return this;
     }
 
-    public IQueryStringBuilder WithQueryString(string key, string value)
+    public IQueryBuilder WithQuery(string key, string value)
     {
         key.EnsureIsNotEmpty(nameof(key));
         value.EnsureIsNotEmpty(nameof(value));
 
-        _queryStrings[key] = $"{key}={value}";
+        _queries[key] = value;
 
         return this;
     }
@@ -41,12 +41,12 @@ public class UrlBuilder : ISegmentBuilder, IQueryStringBuilder, IBaseUrlBuilder
 
     private string GetFormattedSegments()
     {
-        return Join("/", new[] { _baseAddress }.Concat(_segments));
+        return Join("/", new[] { _address }.Concat(_segments));
     }
 
     private string GetFormattedQueries()
     {
-        return Join("&", _queryStrings.Values);
+        return Join("&", _queries.Select(q => $"{q.Key}={q.Value}"));
     }
 
     private static string Join(string separator, params IEnumerable<string> parts)

@@ -75,7 +75,7 @@ public class UrlBuilderHttpsTests
     {
         Assert.Throws<ArgumentException>(() => UrlBuilder
             .Https("www.travel.eu")
-            .WithQueryString(key, value)
+            .WithQuery(key, value)
         );
     }
 
@@ -88,7 +88,7 @@ public class UrlBuilderHttpsTests
         // Act
         var actual = UrlBuilder
             .Http("www.travel.eu")
-            .WithQueryString("lang", "en")
+            .WithQuery("lang", "en")
             .ToUrl();
 
         // Assert
@@ -104,8 +104,8 @@ public class UrlBuilderHttpsTests
         // Act
         var actual = UrlBuilder
             .Http("www.travel.eu")
-            .WithQueryString("lang", "en")
-            .WithQueryString("lang", "ro")
+            .WithQuery("lang", "en")
+            .WithQuery("lang", "ro")
             .ToUrl();
 
         // Assert
@@ -122,8 +122,8 @@ public class UrlBuilderHttpsTests
         // Act
         var actual = UrlBuilder
             .Http("www.travel.eu")
-            .WithQueryString("type", "nature")
-            .WithQueryString("lang", "en")
+            .WithQuery("type", "nature")
+            .WithQuery("lang", "en")
             .ToUrl();
 
         // Assert
@@ -140,8 +140,8 @@ public class UrlBuilderHttpsTests
         var actual = UrlBuilder
             .Http("www.travel.eu")
             .WithSegment("countries").WithSegment("romania")
-            .WithQueryString("type", "nature")
-            .WithQueryString("lang", "en")
+            .WithQuery("type", "nature")
+            .WithQuery("lang", "en")
             .ToUrl();
 
         // Assert
@@ -158,8 +158,8 @@ public class UrlBuilderHttpsTests
         var actual = UrlBuilder
             .Http("Www.TRAVEL.eU")
             .WithSegment("Countries").WithSegment("RomaniA")
-            .WithQueryString("TypE", "NaturE")
-            .WithQueryString("Lang", "EN")
+            .WithQuery("TypE", "NaturE")
+            .WithQuery("Lang", "EN")
             .ToUrl();
 
         // Assert
