@@ -1,6 +1,4 @@
-﻿using EnsureThat;
-
-namespace FluentBuilder.Url;
+﻿namespace FluentBuilder.Url;
 
 public class UrlBuilder : ISegmentBuilder, IQueryStringBuilder, IBaseUrlBuilder
 {
@@ -10,10 +8,10 @@ public class UrlBuilder : ISegmentBuilder, IQueryStringBuilder, IBaseUrlBuilder
 
     private UrlBuilder(string protocol, string address)
     {
-        Ensure.String.IsNotNullOrEmpty(protocol, nameof(protocol));
-        Ensure.String.IsNotNullOrEmpty(address, nameof(address));
+        protocol.EnsureIsNotEmpty(nameof(protocol));
+        address.EnsureIsNotEmpty(nameof(address));
 
-        _baseAddress = $"{protocol}://{address}";
+        _baseAddress = $"{protocol}://{address.ToLower()}";
     }
 
     public static UrlBuilder Http(string address) => new("http", address);
@@ -21,22 +19,17 @@ public class UrlBuilder : ISegmentBuilder, IQueryStringBuilder, IBaseUrlBuilder
 
     public ISegmentBuilder WithSegment(string segment)
     {
-        Ensure.String.IsNotNullOrEmpty(segment, nameof(segment));
-
-        _segments.Add(segment);
+        _segments.Add(segment.EnsureIsNotEmpty(nameof(segment)));
 
         return this;
     }
 
-    public IQueryStringBuilder WithQueryString(Action<QueryString> initializer)
+    public IQueryStringBuilder WithQueryString(string key, string value)
     {
-        var query = new QueryString();
-        initializer(query);
+        key.EnsureIsNotEmpty(nameof(key));
+        value.EnsureIsNotEmpty(nameof(value));
 
-        if (query.IsInitialized)
-        {
-            _queryStrings[query.Key.ToLower()] = query.ToString();
-        }
+        _queryStrings[key] = $"{key}={value}";
 
         return this;
     }

@@ -7,7 +7,7 @@ public interface ISegmentBuilder : IQueryStringBuilder, IBaseUrlBuilder
 
 public interface IQueryStringBuilder : IBaseUrlBuilder
 {
-    IQueryStringBuilder WithQueryString(Action<QueryString> initializer);
+    IQueryStringBuilder WithQueryString(string key, string value);
 }
 
 public interface IBaseUrlBuilder
