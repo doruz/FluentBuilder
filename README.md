@@ -6,8 +6,8 @@ An implementation of the fluent builder design pattern for creating urls.
 UrlBuilder.Http("www.travel.eu")
     .WithSegment("countries")
     .WithSegment("romania")
-    .WithQuery("type", "nature")
     .WithQuery("lang", "en")
+    .WithQuery("type", "nature")
     .ToUrl();
 
 // http://www.travel.eu/countries/romania?lang=en&type=nature
@@ -17,8 +17,8 @@ UrlBuilder.Http("www.travel.eu")
 UrlBuilder.Https("www.travel.eu")
     .WithSegment("countries")
     .WithSegment("romania")
-    .WithQuery("type", "nature")
     .WithQuery("lang", "en")
+    .WithQuery("type", "nature")
     .ToUrl();
 
 // https://www.travel.eu/countries/romania?lang=en&type=nature
