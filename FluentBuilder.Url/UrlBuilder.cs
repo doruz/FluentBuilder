@@ -1,57 +1,56 @@
-﻿namespace FluentBuilder.Url
+﻿namespace FluentBuilder.Url;
+
+public class UrlBuilder : IUrlBuilder
 {
-    public class UrlBuilder : ISegmentBuilder, IQueryStringBuilder, IBaseUrlBuilder
+    private readonly string _address;
+    private readonly List<string> _segments = [];
+    private readonly SortedDictionary<string, string> _queries = [];
+
+    private UrlBuilder(string protocol, string address)
     {
-        private readonly string baseAddress;
-        private readonly List<string> segments;
-        private readonly SortedDictionary<string, string> queryStrings;
+        protocol.EnsureIsNotEmpty(nameof(protocol));
+        address.EnsureIsNotEmpty(nameof(address));
 
-        private UrlBuilder(string protocol, string address)
-        {
-            baseAddress = $"{protocol}://{address}";
-            segments = new List<string>();
-            queryStrings = new SortedDictionary<string, string>();
-        }
+        _address = $"{protocol}://{address.ToLower()}";
+    }
 
-        public static UrlBuilder Http(string address)
-        {
-            return new UrlBuilder("http", address);
-        }
+    public static UrlBuilder Http(string host) => new("http", host);
+    public static UrlBuilder Https(string host) => new("https", host);
 
-        public static UrlBuilder Https(string address)
-        {
-            return new UrlBuilder("https", address);
-        }
+    public ISegmentBuilder WithSegment(string segment)
+    {
+        _segments.Add(segment.EnsureIsNotEmpty(nameof(segment)));
 
-        public ISegmentBuilder WithSegment(string segment)
-        {
-            if (!string.IsNullOrEmpty(segment))
-            {
-                segments.Add(segment);
-            }
+        return this;
+    }
 
-            return this;
-        }
+    public IQueryBuilder WithQuery(string key, string value)
+    {
+        key.EnsureIsNotEmpty(nameof(key));
+        value.EnsureIsNotEmpty(nameof(value));
 
-        public IQueryStringBuilder WithQueryString(Action<QueryString> initializer)
-        {
-            var query = new QueryString();
-            initializer(query);
+        _queries[key] = value;
 
-            if (query.IsInitialized)
-            {
-                queryStrings[query.Key.ToLower()] = query.ToString();
-            }
+        return this;
+    }
 
-            return this;
-        }
+    public string ToUrl()
+    {
+        return Join("?", GetFormattedSegments(), GetFormattedQueries());
+    }
 
-        public string ToUrl()
-        {
-            var segmentsString = string.Join("/", segments);
-            var queries = string.Join("&", queryStrings.Values);
+    private string GetFormattedSegments()
+    {
+        return Join("/", new[] { _address }.Concat(_segments));
+    }
 
-            return $"{baseAddress}/{segmentsString}?{queries}";
-        }
+    private string GetFormattedQueries()
+    {
+        return Join("&", _queries.Select(q => $"{q.Key}={q.Value}"));
+    }
+
+    private static string Join(string separator, params IEnumerable<string> parts)
+    {
+        return string.Join(separator, parts.Where(part => string.IsNullOrWhiteSpace(part) is false));
     }
 }
