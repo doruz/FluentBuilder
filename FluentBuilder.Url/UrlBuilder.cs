@@ -1,4 +1,6 @@
-﻿namespace FluentBuilder.Url;
+﻿using System.Web;
+
+namespace FluentBuilder.Url;
 
 public class UrlBuilder : IUrlBuilder
 {
@@ -9,7 +11,10 @@ public class UrlBuilder : IUrlBuilder
     private UrlBuilder(string protocol, string address)
     {
         protocol.EnsureIsNotEmpty(nameof(protocol));
-        address.EnsureIsNotEmpty(nameof(address));
+        
+        address
+            .EnsureIsNotEmpty(nameof(address))
+            .EnsureMatches(UrlRegex.Host, nameof(address));
 
         _address = $"{protocol}://{address.ToLower()}";
     }
@@ -17,14 +22,18 @@ public class UrlBuilder : IUrlBuilder
     public static UrlBuilder Http(string host) => new("http", host);
     public static UrlBuilder Https(string host) => new("https", host);
 
-    public ISegmentBuilder WithSegment(string segment)
+    public ISegmentsBuilder WithSegment(string segment)
     {
-        _segments.Add(segment.EnsureIsNotEmpty(nameof(segment)));
+        segment
+            .EnsureIsNotEmpty(nameof(segment))
+            .EnsureMatches(UrlRegex.SegmentAndQuery, nameof(segment));
+
+        _segments.Add(segment);
 
         return this;
     }
 
-    public IQueryBuilder WithQuery(string key, string value)
+    public IQueriesBuilder WithQuery(string key, string value)
     {
         key.EnsureIsNotEmpty(nameof(key));
         value.EnsureIsNotEmpty(nameof(value));

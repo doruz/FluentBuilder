@@ -1,15 +1,15 @@
 ﻿namespace FluentBuilder.Url;
 
-public interface IUrlBuilder : ISegmentBuilder;
+public interface IUrlBuilder : ISegmentsBuilder;
 
-public interface ISegmentBuilder : IQueryBuilder
+public interface ISegmentsBuilder : IQueriesBuilder
 {
-    ISegmentBuilder WithSegment(string segment);
+    ISegmentsBuilder WithSegment(string segment);
 }
 
-public interface IQueryBuilder : IBaseUrlBuilder
+public interface IQueriesBuilder : IBaseUrlBuilder
 {
-    IQueryBuilder WithQuery(string key, string value);
+    IQueriesBuilder WithQuery(string key, string value);
 }
 
 public interface IBaseUrlBuilder

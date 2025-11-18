@@ -8,7 +8,7 @@ public abstract class UrlBuilderTests
 
     protected abstract string GetExpected(string url);
 
-    public static IEnumerable<string?[]> InvalidValues => new List<string?[]>
+    public static IEnumerable<string?[]> EmptyValues => new List<string?[]>
     {
         new string?[] { null },
         new[] { "" },
@@ -27,30 +27,46 @@ public abstract class UrlBuilderTests
     };
 
     [Theory]
-    [MemberData(nameof(InvalidValues))]
-    public void When_UsingInvalidAddress_Should_ThrowException(string urlHost)
+    [MemberData(nameof(EmptyValues))]
+    public void When_UsingEmptyAddress_Should_ThrowException(string host)
     {
-        Assert.Throws<ArgumentException>(() => Host(urlHost));
+        Assert.Throws<ArgumentException>(() => Host(host));
     }
 
-    [Fact]
-    public void When_UsingValidAddress_Should_BuildCorrectUrl()
+    [Theory]
+    [InlineData("-bad.com")]
+    [InlineData("bad-.com")]
+    [InlineData("example")]
+    [InlineData("travel more.eu")]
+    public void When_UsingInvalidAddress_Should_ThrowException(string host)
+    {
+        Assert.Throws<ArgumentException>(() => Host(host));
+    }
+
+    [Theory]
+    [InlineData("travel.eu")]
+    [InlineData("www.travel.eu")]
+    [InlineData("api.travel.eu")]
+    [InlineData("api-travel.eu")]
+    [InlineData("api2.travel.eu")]
+    [InlineData("api-2.travel.eu")]
+    public void When_UsingValidAddress_Should_BuildCorrectUrl(string host)
     {
         // Arrange
-        string expected = GetExpected("www.travel.eu");
+        string expected = GetExpected(host);
 
         // Act
-        var actual = Host("www.travel.eu").ToUrl();
+        var actual = Host(host).ToUrl();
 
         // Assert
         Assert.Equal(expected, actual);
     }
 
     [Theory]
-    [MemberData(nameof(InvalidValues))]
-    public void When_AddingInvalidSegment_Should_ThrowException(string urlSegment)
+    [MemberData(nameof(EmptyValues))]
+    public void When_AddingInvalidSegment_Should_ThrowException(string segment)
     {
-        Assert.Throws<ArgumentException>(() => Host("www.travel.eu").WithSegment(urlSegment));
+        Assert.Throws<ArgumentException>(() => Host("www.travel.eu").WithSegment(segment));
     }
 
     [Fact]
@@ -63,6 +79,21 @@ public abstract class UrlBuilderTests
         var actual = Host("www.travel.eu")
             .WithSegment("countries")
             .WithSegment("romania")
+            .ToUrl();
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void When_AddingValidSegmentsWithSpecialCharacters_Should_BuildCorrectUrl()
+    {
+        // Arrange
+        string expected = GetExpected("www.travel.eu/~a-1_c.2");
+
+        // Act
+        var actual = Host("www.travel.eu")
+            .WithSegment("~a-1_c.2")
             .ToUrl();
 
         // Assert
@@ -85,6 +116,21 @@ public abstract class UrlBuilderTests
         // Act
         var actual = Host("www.travel.eu")
             .WithQuery("lang", "en")
+            .ToUrl();
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void When_AddingValidQueryWithSpecialCharacters_Should_BuildCorrectUrl()
+    {
+        // Arrange
+        string expected = GetExpected("www.travel.eu?~a-1_c.2=~1-a_2.c");
+
+        // Act
+        var actual = Host("www.travel.eu")
+            .WithQuery("~a-1_c.2", "~1-a_2.c")
             .ToUrl();
 
         // Assert
