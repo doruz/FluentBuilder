@@ -1,26 +1,25 @@
-﻿using System.Web;
-
-namespace FluentBuilder.Url;
+﻿namespace FluentBuilder.Url;
 
 public class UrlBuilder : IUrlBuilder
 {
-    private readonly string _address;
+    private readonly string _protocol;
+    private readonly string _host;
+    private ushort? _port;
+
     private readonly List<string> _segments = [];
     private readonly SortedDictionary<string, string> _queries = [];
 
-    private UrlBuilder(string protocol, string address)
+    private UrlBuilder(string protocol, string host)
     {
-        protocol.EnsureIsNotEmpty(nameof(protocol));
+        _protocol = protocol.EnsureIsNotEmpty(nameof(protocol));
         
-        address
-            .EnsureIsNotEmpty(nameof(address))
-            .EnsureMatches(UrlRegex.Host, nameof(address));
-
-        _address = $"{protocol}://{address.ToLower()}";
+        _host = host
+            .EnsureIsNotEmpty(nameof(host))
+            .EnsureMatches(UrlRegex.Host, nameof(host));
     }
 
-    public static UrlBuilder Http(string host) => new("http", host);
-    public static UrlBuilder Https(string host) => new("https", host);
+    public static UrlBuilder Http(string host) => new(UrlProtocols.Http, host);
+    public static UrlBuilder Https(string host) => new(UrlProtocols.Https, host);
 
     public ISegmentsBuilder WithSegment(string segment)
     {
@@ -29,6 +28,20 @@ public class UrlBuilder : IUrlBuilder
             .EnsureMatches(UrlRegex.SegmentAndQuery, nameof(segment));
 
         _segments.Add(segment);
+
+        return this;
+    }
+
+    public ISegmentsBuilder OnPort(ushort port)
+    {
+        port.EnsurePortIsValid();
+
+        _port = _protocol switch
+        {
+            UrlProtocols.Http when port != UrlPorts.Http => port,
+            UrlProtocols.Https when port != UrlPorts.Https => port,
+            _ => _port
+        };
 
         return this;
     }
@@ -43,14 +56,21 @@ public class UrlBuilder : IUrlBuilder
         return this;
     }
 
-    public string ToUrl()
+    public override string ToString()
     {
         return Join("?", GetFormattedSegments(), GetFormattedQueries());
     }
 
     private string GetFormattedSegments()
     {
-        return Join("/", new[] { _address }.Concat(_segments));
+        return Join("/", new[] { GetFormattedAddress() }.Concat(_segments));
+    }
+
+    private string GetFormattedAddress()
+    {
+        return _port is null
+            ? $"{_protocol}://{_host.ToLower()}"
+            : $"{_protocol}://{_host.ToLower()}:{_port}";
     }
 
     private string GetFormattedQueries()

@@ -6,16 +6,18 @@ public abstract class UrlBuilderTests
 {
     protected abstract Func <string, UrlBuilder> Host { get; }
 
+    protected abstract ushort DefaultPort { get; }
+
     protected abstract string GetExpected(string url);
 
-    public static IEnumerable<string?[]> EmptyValues => new List<string?[]>
+    public static IEnumerable<object?[]> EmptyValues => new List<string?[]>
     {
         new string?[] { null },
         new[] { "" },
         new[] { "    " },
     };
 
-    public static IEnumerable<string?[]> InvalidQueries => new List<string?[]>
+    public static IEnumerable<object?[]> InvalidQueries => new List<string?[]>
     {
         new[] { null, "en" },
         new[] { "", "en" },
@@ -56,7 +58,37 @@ public abstract class UrlBuilderTests
         string expected = GetExpected(host);
 
         // Act
-        var actual = Host(host).ToUrl();
+        var actual = Host(host).ToString();
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void When_UsingValidAddressWithDefaultPort_Should_BuildCorrectUrlWithoutPort()
+    {
+        // Arrange
+        string expected = GetExpected("www.travel.eu");
+
+        // Act
+        var actual = Host("www.travel.eu")
+            .OnPort(DefaultPort)
+            .ToString();
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void When_UsingValidAddressWithCustomPort_Should_BuildCorrectUrlWithPort()
+    {
+        // Arrange
+        string expected = GetExpected("www.travel.eu:5001");
+
+        // Act
+        var actual = Host("www.travel.eu")
+            .OnPort(5001)
+            .ToString();
 
         // Assert
         Assert.Equal(expected, actual);
@@ -79,7 +111,7 @@ public abstract class UrlBuilderTests
         var actual = Host("www.travel.eu")
             .WithSegment("countries")
             .WithSegment("romania")
-            .ToUrl();
+            .ToString();
 
         // Assert
         Assert.Equal(expected, actual);
@@ -94,7 +126,7 @@ public abstract class UrlBuilderTests
         // Act
         var actual = Host("www.travel.eu")
             .WithSegment("~a-1_c.2")
-            .ToUrl();
+            .ToString();
 
         // Assert
         Assert.Equal(expected, actual);
@@ -116,7 +148,7 @@ public abstract class UrlBuilderTests
         // Act
         var actual = Host("www.travel.eu")
             .WithQuery("lang", "en")
-            .ToUrl();
+            .ToString();
 
         // Assert
         Assert.Equal(expected, actual);
@@ -131,7 +163,7 @@ public abstract class UrlBuilderTests
         // Act
         var actual = Host("www.travel.eu")
             .WithQuery("~a-1_c.2", "~1-a_2.c")
-            .ToUrl();
+            .ToString();
 
         // Assert
         Assert.Equal(expected, actual);
@@ -147,12 +179,11 @@ public abstract class UrlBuilderTests
         var actual = Host("www.travel.eu")
             .WithQuery("lang", "en")
             .WithQuery("lang", "ro")
-            .ToUrl();
+            .ToString();
 
         // Assert
         Assert.Equal(expected, actual);
     }
-
 
     [Fact]
     public void When_AddingMultipleQueries_Should_OrderThemAscendingByKey()
@@ -164,7 +195,7 @@ public abstract class UrlBuilderTests
         var actual = Host("www.travel.eu")
             .WithQuery("type", "nature")
             .WithQuery("lang", "en")
-            .ToUrl();
+            .ToString();
 
         // Assert
         Assert.Equal(expected, actual);
@@ -181,7 +212,25 @@ public abstract class UrlBuilderTests
             .WithSegment("countries").WithSegment("romania")
             .WithQuery("type", "nature")
             .WithQuery("lang", "en")
-            .ToUrl();
+            .ToString();
+
+        // Assert
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void When_AddingCustomPortAndSegmentsAndQueries_Should_BuildCorrectUrl()
+    {
+        // Arrange
+        string expected = GetExpected("www.travel.eu:5001/countries/romania?lang=en&type=nature");
+
+        // Act
+        var actual = Host("www.travel.eu")
+            .OnPort(5001)
+            .WithSegment("countries").WithSegment("romania")
+            .WithQuery("type", "nature")
+            .WithQuery("lang", "en")
+            .ToString();
 
         // Assert
         Assert.Equal(expected, actual);
@@ -198,7 +247,7 @@ public abstract class UrlBuilderTests
             .WithSegment("Countries").WithSegment("RomaniA")
             .WithQuery("TypE", "NaturE")
             .WithQuery("Lang", "EN")
-            .ToUrl();
+            .ToString();
 
         // Assert
         Assert.Equal(expected, actual);
