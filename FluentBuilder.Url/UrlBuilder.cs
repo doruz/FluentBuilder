@@ -21,18 +21,7 @@ public class UrlBuilder : IUrlBuilder
     public static UrlBuilder Http(string host) => new(UrlProtocols.Http, host);
     public static UrlBuilder Https(string host) => new(UrlProtocols.Https, host);
 
-    public ISegmentsBuilder WithSegment(string segment)
-    {
-        segment
-            .EnsureIsNotEmpty(nameof(segment))
-            .EnsureMatches(UrlRegex.SegmentAndQuery, nameof(segment));
-
-        _segments.Add(segment);
-
-        return this;
-    }
-
-    public ISegmentsBuilder OnPort(ushort port)
+    public IUrlPath OnPort(ushort port)
     {
         port.EnsurePortIsValid();
 
@@ -46,7 +35,28 @@ public class UrlBuilder : IUrlBuilder
         return this;
     }
 
-    public IQueriesBuilder WithQuery(string key, string value)
+    public IUrlPath WithPath(params string[] segments)
+    {
+        foreach (var segment in segments)
+        {
+            WithPath(segment);
+        }
+        
+        return this;
+    }
+
+    public IUrlPath WithPath(string segment)
+    {
+        segment
+            .EnsureIsNotEmpty(nameof(segment))
+            .EnsureMatches(UrlRegex.SegmentAndQuery, nameof(segment));
+
+        _segments.Add(segment);
+
+        return this;
+    }
+
+    public IUrlQueries WithQuery(string key, string value)
     {
         key.EnsureIsNotEmpty(nameof(key));
         value.EnsureIsNotEmpty(nameof(value));

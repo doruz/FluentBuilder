@@ -16,14 +16,13 @@ string GetSimpleUrlWithCustomPort() => UrlBuilder
 
 string GetUrlWithPath() => UrlBuilder
     .Https("www.travel.eu")
-    .WithSegment("countries")
-    .WithSegment("romania")
+    .WithPath("countries")
+    .WithPath("romania")
     .ToString();
 
 string GetUrlWithPathAndQueries() => UrlBuilder
     .Https("www.travel.eu")
-    .WithSegment("countries")
-    .WithSegment("romania")
+    .WithPath("countries", "romania")
     .WithQuery("type", "nature")
     .WithQuery("lang", "en")
     .ToString();

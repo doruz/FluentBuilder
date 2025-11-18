@@ -96,21 +96,22 @@ public abstract class UrlBuilderTests
 
     [Theory]
     [MemberData(nameof(EmptyValues))]
-    public void When_AddingInvalidSegment_Should_ThrowException(string segment)
+    public void When_AddingInvalidPath_Should_ThrowException(string path)
     {
-        Assert.Throws<ArgumentException>(() => Host("www.travel.eu").WithSegment(segment));
+        Assert.Throws<ArgumentException>(() => Host("www.travel.eu").WithPath([path]));
+        Assert.Throws<ArgumentException>(() => Host("www.travel.eu").WithPath("countries", path));
     }
 
     [Fact]
-    public void When_AddingValidSegments_Should_BuildCorrectUrl()
+    public void When_AddingValidPaths_Should_BuildCorrectUrl()
     {
         // Arrange
-        string expected = GetExpected("www.travel.eu/countries/romania");
+        string expected = GetExpected("www.travel.eu/countries/romania/cities/iasi");
 
         // Act
         var actual = Host("www.travel.eu")
-            .WithSegment("countries")
-            .WithSegment("romania")
+            .WithPath("countries", "romania")
+            .WithPath("cities", "iasi")
             .ToString();
 
         // Assert
@@ -118,14 +119,14 @@ public abstract class UrlBuilderTests
     }
 
     [Fact]
-    public void When_AddingValidSegmentsWithSpecialCharacters_Should_BuildCorrectUrl()
+    public void When_AddingValidPathsWithSpecialCharacters_Should_BuildCorrectUrl()
     {
         // Arrange
         string expected = GetExpected("www.travel.eu/~a-1_c.2");
 
         // Act
         var actual = Host("www.travel.eu")
-            .WithSegment("~a-1_c.2")
+            .WithPath("~a-1_c.2")
             .ToString();
 
         // Assert
@@ -202,14 +203,14 @@ public abstract class UrlBuilderTests
     }
 
     [Fact]
-    public void When_AddingSegmentsAndQueries_Should_BuildCorrectUrl()
+    public void When_AddingPathsAndQueries_Should_BuildCorrectUrl()
     {
         // Arrange
         string expected = GetExpected("www.travel.eu/countries/romania?lang=en&type=nature");
 
         // Act
         var actual = Host("www.travel.eu")
-            .WithSegment("countries").WithSegment("romania")
+            .WithPath("countries", "romania")
             .WithQuery("type", "nature")
             .WithQuery("lang", "en")
             .ToString();
@@ -219,7 +220,7 @@ public abstract class UrlBuilderTests
     }
 
     [Fact]
-    public void When_AddingCustomPortAndSegmentsAndQueries_Should_BuildCorrectUrl()
+    public void When_AddingCustomPortAndPathsAndQueries_Should_BuildCorrectUrl()
     {
         // Arrange
         string expected = GetExpected("www.travel.eu:5001/countries/romania?lang=en&type=nature");
@@ -227,7 +228,7 @@ public abstract class UrlBuilderTests
         // Act
         var actual = Host("www.travel.eu")
             .OnPort(5001)
-            .WithSegment("countries").WithSegment("romania")
+            .WithPath("countries", "romania")
             .WithQuery("type", "nature")
             .WithQuery("lang", "en")
             .ToString();
@@ -237,14 +238,14 @@ public abstract class UrlBuilderTests
     }
 
     [Fact]
-    public void When_AddingSegmentsAndQueries_Should_BuildCaseSensitiveUrl()
+    public void When_AddingPathsAndQueries_Should_BuildCaseSensitiveUrl()
     {
         // Arrange
         string expected = GetExpected("www.travel.eu/Countries/RomaniA?Lang=EN&TypE=NaturE");
 
         // Act
         var actual = Host("Www.TRAVEL.eU")
-            .WithSegment("Countries").WithSegment("RomaniA")
+            .WithPath("Countries").WithPath("RomaniA")
             .WithQuery("TypE", "NaturE")
             .WithQuery("Lang", "EN")
             .ToString();
