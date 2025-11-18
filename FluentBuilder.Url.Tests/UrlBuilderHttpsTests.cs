@@ -1,6 +1,4 @@
-﻿using FluentBuilder.Url;
-
-namespace FluentBuilder.Tests;
+﻿namespace FluentBuilder.Url.Tests;
 
 public class UrlBuilderHttpsTests : UrlBuilderTests
 {
