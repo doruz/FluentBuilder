@@ -8,8 +8,6 @@ public interface IUrlBuilder : IUrlPath
 public interface IUrlPath : IUrlQueries
 {
     IUrlPath WithPath(params string[] segments);
-
-    IUrlPath WithPath(string segment);
 }
 
 public interface IUrlQueries : IUrl

@@ -39,19 +39,12 @@ public class UrlBuilder : IUrlBuilder
     {
         foreach (var segment in segments)
         {
-            WithPath(segment);
+            segment
+                .EnsureIsNotEmpty(nameof(segment))
+                .EnsureMatches(UrlRegex.SegmentAndQuery, nameof(segment));
+
+            _segments.Add(segment);
         }
-        
-        return this;
-    }
-
-    public IUrlPath WithPath(string segment)
-    {
-        segment
-            .EnsureIsNotEmpty(nameof(segment))
-            .EnsureMatches(UrlRegex.SegmentAndQuery, nameof(segment));
-
-        _segments.Add(segment);
 
         return this;
     }
