@@ -9,7 +9,7 @@ An implementation of the fluent builder design pattern for creating urls.
 UrlBuilder.Https("www.travel.eu")
     .WithSegment("countries")
     .WithSegment("romania")
-    .ToUrl();
+    .ToString();
 ```
 
 ```csharp
@@ -19,7 +19,7 @@ UrlBuilder.Https("www.travel.eu")
     .OnPort(5001)
     .WithSegment("countries")
     .WithSegment("romania")
-    .ToUrl();
+    .ToString();
 ```
 
 ```csharp
@@ -30,5 +30,5 @@ UrlBuilder.Https("www.travel.eu")
     .WithSegment("romania")
     .WithQuery("lang", "en")
     .WithQuery("type", "nature")
-    .ToUrl();
+    .ToString();
 ```
