@@ -1,18 +1,18 @@
 ﻿namespace FluentBuilder.Url;
 
-public class UrlBuilder : IUrlBuilder
+public sealed record UrlBuilder : IUrlBuilder
 {
     private readonly string _protocol;
     private readonly string _host;
+    
     private ushort? _port;
-
-    private readonly List<string> _segments = [];
-    private readonly SortedDictionary<string, string> _queries = [];
+    private List<string> _segments = [];
+    private SortedDictionary<string, string> _queries = [];
 
     private UrlBuilder(string protocol, string host)
     {
         _protocol = protocol.EnsureIsNotEmpty(nameof(protocol));
-        
+
         _host = host
             .EnsureIsNotEmpty(nameof(host))
             .EnsureMatches(UrlRegex.Host, nameof(host));
@@ -25,14 +25,15 @@ public class UrlBuilder : IUrlBuilder
     {
         port.EnsurePortIsValid();
 
-        _port = _protocol switch
+        return this with
         {
-            UrlProtocols.Http when port != UrlPorts.Http => port,
-            UrlProtocols.Https when port != UrlPorts.Https => port,
-            _ => _port
+            _port = _protocol switch
+            {
+                UrlProtocols.Http when port != UrlPorts.Http => port,
+                UrlProtocols.Https when port != UrlPorts.Https => port,
+                _ => _port
+            }
         };
-
-        return this;
     }
 
     public IUrlPath WithPath(params string[] segments)
@@ -42,11 +43,12 @@ public class UrlBuilder : IUrlBuilder
             segment
                 .EnsureIsNotEmpty(nameof(segment))
                 .EnsureMatches(UrlRegex.SegmentAndQuery, nameof(segment));
-
-            _segments.Add(segment);
         }
 
-        return this;
+        return this with
+        {
+            _segments = [.._segments, ..segments]
+        };
     }
 
     public IUrlQueries WithQuery(string key, string value)
@@ -54,9 +56,13 @@ public class UrlBuilder : IUrlBuilder
         key.EnsureIsNotEmpty(nameof(key));
         value.EnsureIsNotEmpty(nameof(value));
 
-        _queries[key] = value;
-
-        return this;
+        return this with
+        {
+            _queries = new SortedDictionary<string, string>(_queries)
+            {
+                [key] = value
+            }
+        };
     }
 
     public override string ToString()

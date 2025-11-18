@@ -34,3 +34,14 @@ UrlBuilder.Https("www.travel.eu")
     .WithQuery("type", "nature")
     .ToString();
 ```
+
+
+```csharp
+// https://www.travel.eu/countries/romania?lang=en&type=nature
+
+UrlBuilder.Https("www.travel.eu")
+    .WithPath("countries", "romania")
+    .WithQuery("lang", "en")
+    .WithQuery("type", "nature")
+    .ToString();
+```
