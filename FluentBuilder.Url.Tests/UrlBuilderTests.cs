@@ -251,4 +251,23 @@ public abstract class UrlBuilderTests
         // Assert
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void When_UsingSameBuilderInstance_Should_BeImmutable()
+    {
+        // Arrange
+        var builder = Host("www.travel.eu").WithPath("countries", "romania");
+
+        // Assert #1
+        Assert.Equal(
+            GetExpected("www.travel.eu/countries/romania/cities/iasi"),
+            builder.WithPath("cities", "iasi").ToString()
+        );
+
+        // Assert #2
+        Assert.Equal(
+            GetExpected("www.travel.eu/countries/romania?lang=en"),
+            builder.WithQuery("lang", "en").ToString()
+        );
+    }
 }
