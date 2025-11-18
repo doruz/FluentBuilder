@@ -2,29 +2,54 @@
 
 public class UrlBuilder : IUrlBuilder
 {
-    private readonly string _address;
+    private readonly string _protocol;
+    private readonly string _host;
+    private ushort? _port;
+
     private readonly List<string> _segments = [];
     private readonly SortedDictionary<string, string> _queries = [];
 
-    private UrlBuilder(string protocol, string address)
+    private UrlBuilder(string protocol, string host)
     {
-        protocol.EnsureIsNotEmpty(nameof(protocol));
-        address.EnsureIsNotEmpty(nameof(address));
-
-        _address = $"{protocol}://{address.ToLower()}";
+        _protocol = protocol.EnsureIsNotEmpty(nameof(protocol));
+        
+        _host = host
+            .EnsureIsNotEmpty(nameof(host))
+            .EnsureMatches(UrlRegex.Host, nameof(host));
     }
 
-    public static UrlBuilder Http(string host) => new("http", host);
-    public static UrlBuilder Https(string host) => new("https", host);
+    public static UrlBuilder Http(string host) => new(UrlProtocols.Http, host);
+    public static UrlBuilder Https(string host) => new(UrlProtocols.Https, host);
 
-    public ISegmentBuilder WithSegment(string segment)
+    public IUrlPath OnPort(ushort port)
     {
-        _segments.Add(segment.EnsureIsNotEmpty(nameof(segment)));
+        port.EnsurePortIsValid();
+
+        _port = _protocol switch
+        {
+            UrlProtocols.Http when port != UrlPorts.Http => port,
+            UrlProtocols.Https when port != UrlPorts.Https => port,
+            _ => _port
+        };
 
         return this;
     }
 
-    public IQueryBuilder WithQuery(string key, string value)
+    public IUrlPath WithPath(params string[] segments)
+    {
+        foreach (var segment in segments)
+        {
+            segment
+                .EnsureIsNotEmpty(nameof(segment))
+                .EnsureMatches(UrlRegex.SegmentAndQuery, nameof(segment));
+
+            _segments.Add(segment);
+        }
+
+        return this;
+    }
+
+    public IUrlQueries WithQuery(string key, string value)
     {
         key.EnsureIsNotEmpty(nameof(key));
         value.EnsureIsNotEmpty(nameof(value));
@@ -34,14 +59,21 @@ public class UrlBuilder : IUrlBuilder
         return this;
     }
 
-    public string ToUrl()
+    public override string ToString()
     {
         return Join("?", GetFormattedSegments(), GetFormattedQueries());
     }
 
     private string GetFormattedSegments()
     {
-        return Join("/", new[] { _address }.Concat(_segments));
+        return Join("/", new[] { GetFormattedAddress() }.Concat(_segments));
+    }
+
+    private string GetFormattedAddress()
+    {
+        return _port is null
+            ? $"{_protocol}://{_host.ToLower()}"
+            : $"{_protocol}://{_host.ToLower()}:{_port}";
     }
 
     private string GetFormattedQueries()

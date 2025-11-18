@@ -1,6 +1,6 @@
 ﻿namespace FluentBuilder.Url;
 
-internal static class StringExtensions
+internal static class UrlStrings
 {
     internal static string EnsureIsNotEmpty(this string? value, string parameterName)
     {

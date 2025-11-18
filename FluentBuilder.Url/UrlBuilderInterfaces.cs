@@ -1,18 +1,21 @@
 ﻿namespace FluentBuilder.Url;
 
-public interface IUrlBuilder : ISegmentBuilder;
-
-public interface ISegmentBuilder : IQueryBuilder
+public interface IUrlBuilder : IUrlPath
 {
-    ISegmentBuilder WithSegment(string segment);
+    IUrlPath OnPort(ushort port);
 }
 
-public interface IQueryBuilder : IBaseUrlBuilder
+public interface IUrlPath : IUrlQueries
 {
-    IQueryBuilder WithQuery(string key, string value);
+    IUrlPath WithPath(params string[] segments);
 }
 
-public interface IBaseUrlBuilder
+public interface IUrlQueries : IUrl
 {
-    string ToUrl();
+    IUrlQueries WithQuery(string key, string value);
+}
+
+public interface IUrl
+{
+    string ToString();
 }

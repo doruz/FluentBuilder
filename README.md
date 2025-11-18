@@ -2,24 +2,35 @@
 
 An implementation of the fluent builder design pattern for creating urls.
 
-```csharp
-UrlBuilder.Http("www.travel.eu")
-    .WithSegment("countries")
-    .WithSegment("romania")
-    .WithQuery("lang", "en")
-    .WithQuery("type", "nature")
-    .ToUrl();
 
-// http://www.travel.eu/countries/romania?lang=en&type=nature
+```csharp
+// https://www.travel.eu/countries/romania
+
+UrlBuilder.Https("www.travel.eu")
+    .WithPath("countries")
+    .WithPath("romania")
+    .ToString();
+
+UrlBuilder.Https("www.travel.eu")
+    .WithPath("countries", "romania")
+    .ToString();
 ```
 
 ```csharp
+// https://www.travel.eu:5001/countries/romania
+
 UrlBuilder.Https("www.travel.eu")
-    .WithSegment("countries")
-    .WithSegment("romania")
+    .OnPort(5001)
+    .WithPath("countries", "romania")
+    .ToString();
+```
+
+```csharp
+// https://www.travel.eu/countries/romania?lang=en&type=nature
+
+UrlBuilder.Https("www.travel.eu")
+    .WithPath("countries", "romania")
     .WithQuery("lang", "en")
     .WithQuery("type", "nature")
-    .ToUrl();
-
-// https://www.travel.eu/countries/romania?lang=en&type=nature
+    .ToString();
 ```
