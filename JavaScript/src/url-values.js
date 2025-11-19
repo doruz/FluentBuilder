@@ -6,7 +6,7 @@ export default class UrlValues {
     host;
     port = null;
     pathSegments = [];
-    queries = new Map();
+    queries = {};
 
     constructor(protocol, host) {
         this.protocol = UrlStrings.ensureIsNotEmpty(protocol, 'protocol');
@@ -26,7 +26,7 @@ export default class UrlValues {
             return this;
         }
 
-        return this.#newInstance(values => values.port = port);
+        return this.#clone(v => v.port = port);
     }
 
     updatePath(pathSegments) {
@@ -34,29 +34,22 @@ export default class UrlValues {
             UrlStrings.ensureIsNotEmpty(segment, `pathSegments[${index}]`);
         });
 
-        return this.#newInstance(b => b.pathSegments = [...this.pathSegments, ...pathSegments]);
+        return this.#clone(v => v.pathSegments.push(...pathSegments));
     }
 
     updateQuery(key, value) {
         UrlStrings.ensureIsNotEmpty(key, 'key');
         UrlStrings.ensureIsNotEmpty(value, 'value');
 
-        return this.#newInstance(b => {
-            for (const existingKey in this.queries) {
-                b.queries[existingKey] = this.queries[existingKey];
-            }
-
-            b.queries[key] = value;
-        });
+        return this.#clone(v => v.queries[key] = value);
     }
 
-    #newInstance(changes) {
+    #clone(changes) {
         const updatedValues = new UrlValues(this.protocol, this.host);
 
         updatedValues.port = this.port;
         updatedValues.pathSegments = [...this.pathSegments];
-
-        this.queries.forEach((value, key) => updatedValues.queries[key] = value);
+        updatedValues.queries = { ...this.queries };
 
         changes(updatedValues);
 
