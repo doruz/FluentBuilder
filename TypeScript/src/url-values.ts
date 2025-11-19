@@ -2,7 +2,6 @@ import { UrlPorts, UrlProtocols } from './url-constants.js';
 import UrlStrings from './url-strings.js';
 
 export default class UrlValues {
-
     public constructor(
         public readonly protocol: string,
         public readonly host: string,
@@ -43,7 +42,7 @@ export default class UrlValues {
         return this.clone(v => v.queries.set(key, value));
     }
 
-    private clone(changes: UrlValuesChanges): UrlValues {
+    private clone(changes: (values: UrlValues) => void): UrlValues {
         const clonedValues = new UrlValues(
             this.protocol,
             this.host,
@@ -57,5 +56,3 @@ export default class UrlValues {
         return clonedValues;
     }
 }
-
-type UrlValuesChanges = (name: UrlValues) => void;
