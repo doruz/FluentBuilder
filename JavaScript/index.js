@@ -4,10 +4,12 @@ const examples = [
     getSimpleUrl(),
     getUrlWithPath(),
     getUrlWithCustomPort(),
-    getUrlWithPathAndQueries()
+    getUrlWithPathAndQueries(),
+    "",
+    ...usingSameBuilderInstance(),
+    ""
 ];
 examples.forEach(url => console.log(url));
-console.log("");
 
 function getSimpleUrl() {
     return UrlBuilder
@@ -33,9 +35,29 @@ function getUrlWithPath() {
 function getUrlWithPathAndQueries() {
     return UrlBuilder
         .https('www.travel.eu')
-        .path(['countries', 'romania'])
-        .path(['cities', 'iasi'])
+        .path(['countries', 'romania', 'cities', 'iasi'])
         .query('type', 'nature')
         .query('lang', 'en')
         .toString();
+}
+
+function usingSameBuilderInstance() {
+    const builder = UrlBuilder
+        .https("www.travel.eu")
+        .path(["countries", "romania"]);
+
+    return [
+        builder
+            .query('type', 'nature')
+            .query('lang', 'ro')
+            .toString(),
+
+        builder
+            .query('type', 'nature')
+            .toString(),
+
+        builder
+            .path(['cities', 'iasi'])
+            .toString()
+    ];
 }

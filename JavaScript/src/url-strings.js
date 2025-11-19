@@ -1,4 +1,4 @@
-export default class UrlValidations {
+export default class UrlStrings {
     static ensureIsNotEmpty(value, parameter) {
         if (value) {
             return value;
