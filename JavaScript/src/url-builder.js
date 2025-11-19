@@ -4,8 +4,8 @@ import UrlValues from './url-values.js';
 export default class UrlBuilder {
     #values;
 
-    constructor(params) {
-        this.#values = params;
+    constructor(values) {
+        this.#values = values;
     }
 
     /**

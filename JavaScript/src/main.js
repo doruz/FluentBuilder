@@ -1,4 +1,4 @@
-import UrlBuilder from './src/url-builder.js';
+import UrlBuilder from './url-builder.js';
 
 const examples = [
     getSimpleUrl(),
