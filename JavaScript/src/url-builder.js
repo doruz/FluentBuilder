@@ -67,7 +67,7 @@ export default class UrlBuilder {
     #getFormattedQueryParams() {
         const queries = [];
 
-        for (const key in this.#values.queries) {
+        for (let key in this.#values.queries) {
             queries.push(`${key}=${this.#values.queries[key]}`);
         }
 

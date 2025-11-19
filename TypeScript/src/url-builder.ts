@@ -1,5 +1,5 @@
-import { UrlProtocols } from "./url-constants";
-import UrlValues from "./url-values";
+import { UrlProtocols } from './url-constants.js';
+import UrlValues from './url-values.js';
 
 export default class UrlBuilder {
     private constructor(private readonly values: UrlValues) {
@@ -18,10 +18,56 @@ export default class UrlBuilder {
     public static https = (host: string) => new UrlBuilder(new UrlValues(UrlProtocols.https, host));
 
     /**
+     * Sets url port.
+     * Port is configured only if it is different than implicit values (http:80, https:443).
+     * @param {number} port
+     */
+    public port = (port: number) => new UrlBuilder(this.values.updatePort(port));
+
+    /**
+   * Sets url paths segments.
+   * @param {string[]} pathSegments
+   */
+    public path = (pathSegments: string[]) => new UrlBuilder(this.values.updatePath(pathSegments));
+
+    /**
+     * Sets url query parameter.
+     * @param {string} key 
+     * @param {string} value 
+     */
+    public query = (key: string, value: string) => new UrlBuilder(this.values.updateQuery(key, value));
+
+    /**
      * Build the full url with the provided values.
      */
     public toString(): string {
-        const baseUrl = `${this.values.protocol}://${this.values.host}`;
-        return baseUrl;
+        const addressAndPath = this.getFormattedAddressAndPath();
+        const queries = this.getFormattedQueryParams();
+
+        if (queries) {
+            return `${addressAndPath}?${queries}`;
+        }
+
+        return addressAndPath;
+    }
+
+    private getFormattedAddressAndPath(): string {
+        return [this.getFormattedAddress(), ...this.values.pathSegments].join('/');
+    }
+
+    private getFormattedAddress(): string {
+        return this.values.port === null
+            ? `${this.values.protocol}://${this.values.host}`
+            : `${this.values.protocol}://${this.values.host}:${this.values.port}`;
+    }
+
+    private getFormattedQueryParams(): string {
+        const queries: string[] = [];
+
+        for (const [key, value] of this.values.queries.entries()) {
+            queries.push(`${key}=${value}`);
+        }
+
+        return queries.join('&');
     }
 }

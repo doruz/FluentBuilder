@@ -4,12 +4,12 @@ const examples = [
     getSimpleUrl(),
     getUrlWithPath(),
     getUrlWithPathAndQueries(),
-    "",
+    '',
     getUrlWithCustomPort(),
     getUrlWithCustomPortAndPathAndQueries(),
-    "",
+    '',
     ...usingSameBuilderInstance(),
-    ""
+    ''
 ];
 examples.forEach(url => console.log(url));
 
@@ -54,13 +54,13 @@ function getUrlWithCustomPortAndPathAndQueries() {
 
 function usingSameBuilderInstance() {
     const builder = UrlBuilder
-        .https("www.travel.eu")
-        .path(["countries", "romania"]);
+        .https('www.travel.eu')
+        .path(['countries', 'romania']);
 
     return [
         builder
             .query('type', 'nature')
-            .query('lang', 'ro')
+            .query('lang', 'en')
             .toString(),
 
         builder
