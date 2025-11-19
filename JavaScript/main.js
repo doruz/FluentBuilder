@@ -3,8 +3,10 @@ import UrlBuilder from './src/url-builder.js';
 const examples = [
     getSimpleUrl(),
     getUrlWithPath(),
-    getUrlWithCustomPort(),
     getUrlWithPathAndQueries(),
+    "",
+    getUrlWithCustomPort(),
+    getUrlWithCustomPortAndPathAndQueries(),
     "",
     ...usingSameBuilderInstance(),
     ""
@@ -14,13 +16,6 @@ examples.forEach(url => console.log(url));
 function getSimpleUrl() {
     return UrlBuilder
         .https('www.travel.eu')
-        .toString();
-}
-
-function getUrlWithCustomPort() {
-    return UrlBuilder
-        .https('www.travel.eu')
-        .port(5001)
         .toString();
 }
 
@@ -41,6 +36,22 @@ function getUrlWithPathAndQueries() {
         .toString();
 }
 
+function getUrlWithCustomPort() {
+    return UrlBuilder
+        .https('www.travel.eu')
+        .port(5001)
+        .toString();
+}
+
+function getUrlWithCustomPortAndPathAndQueries() {
+    return UrlBuilder
+        .https('www.travel.eu')
+        .port(5001)
+        .path(['countries', 'romania'])
+        .query('lang', 'en')
+        .toString();
+}
+
 function usingSameBuilderInstance() {
     const builder = UrlBuilder
         .https("www.travel.eu")
@@ -53,11 +64,11 @@ function usingSameBuilderInstance() {
             .toString(),
 
         builder
-            .query('type', 'nature')
+            .path(['cities', 'iasi'])
             .toString(),
 
         builder
-            .path(['cities', 'iasi'])
+            .query('type', 'nature')
             .toString()
     ];
 }

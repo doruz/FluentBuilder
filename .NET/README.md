@@ -1,6 +1,6 @@
-# FluentBuilder in .NET
+# Fluent Builder in .NET
 
-An implementation of the fluent builder design pattern for creating urls.
+An example of the fluent builder design pattern for creating urls.
 
 
 ```csharp

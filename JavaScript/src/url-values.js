@@ -53,6 +53,11 @@ export default class UrlValues {
     #newInstance(changes) {
         const updatedValues = new UrlValues(this.protocol, this.host);
 
+        updatedValues.port = this.port;
+        updatedValues.pathSegments = [...this.pathSegments];
+
+        this.queries.forEach((value, key) => updatedValues.queries[key] = value);
+
         changes(updatedValues);
 
         return updatedValues;

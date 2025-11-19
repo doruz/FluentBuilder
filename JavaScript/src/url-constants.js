@@ -1,6 +1,6 @@
 export class UrlProtocols {
-    static http = "http";
-    static https = "https";
+    static http = 'http';
+    static https = 'https';
 }
 
 export class UrlPorts {
