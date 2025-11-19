@@ -1,5 +1,5 @@
-import { UrlPorts, UrlProtocols } from './url-constants.js';
-import UrlStrings from './url-strings.js';
+import { UrlPorts, UrlProtocols } from './url-constants.ts';
+import UrlStrings from './url-strings.ts';
 
 export default class UrlValues {
     public constructor(

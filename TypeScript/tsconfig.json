@@ -1,38 +1,45 @@
 {
-  "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
+    "compilerOptions": {
+        "rootDir": "src",
+        "outDir": "dist",
 
-    "strict": true,
-    "esModuleInterop": true,
+        "module": "nodenext",
+        "target": "esnext",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
 
-    "module": "es2022",
-    "target": "es2022",
-    "skipLibCheck": true,
+        "declaration": false,
+        "declarationMap": false,
 
-    "sourceMap": false,
-    "declaration": false,
-    "declarationMap": false,
-    "allowJs": false,
+        "experimentalDecorators": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "verbatimModuleSyntax": true,
+        "isolatedModules": true,
+        "moduleDetection": "force",
 
-    "experimentalDecorators": true,
-    // Stricter Typechecking Options
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "forceConsistentCasingInFileNames": true,
+        "allowUnreachableCode": false,
+        "allowJs": false,
+        "alwaysStrict": true,
+        "noImplicitAny": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noUncheckedSideEffectImports": true,
 
-    // Style Options
-    "noImplicitReturns": true,
-    // "noImplicitOverride": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    // "noFallthroughCasesInSwitch": true,
-    // "noPropertyAccessFromIndexSignature": true,
+        "strict": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
 
-    // Recommended Options
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-  }
+        "removeComments": true,
+        "sourceMap": false,
+        "forceConsistentCasingInFileNames": true,
+        "suppressExcessPropertyErrors": false,
+        "suppressImplicitAnyIndexErrors": false,
+        "rewriteRelativeImportExtensions": true
+    }
 }

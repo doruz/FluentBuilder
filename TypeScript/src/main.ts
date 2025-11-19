@@ -1,4 +1,4 @@
-import UrlBuilder from './url-builder.js';
+import UrlBuilder from './url-builder.ts';
 
 const examples = [
     getSimpleUrl(),
@@ -19,7 +19,7 @@ function getSimpleUrl() {
         .toString();
 }
 
-function getUrlWithPath() {
+function getUrlWithPath(): string {
     return UrlBuilder
         .https('www.travel.eu')
         .path(['countries', 'romania'])
@@ -27,7 +27,7 @@ function getUrlWithPath() {
         .toString();
 }
 
-function getUrlWithPathAndQueries() {
+function getUrlWithPathAndQueries(): string {
     return UrlBuilder
         .https('www.travel.eu')
         .path(['countries', 'romania', 'cities', 'iasi'])
@@ -36,14 +36,14 @@ function getUrlWithPathAndQueries() {
         .toString();
 }
 
-function getUrlWithCustomPort() {
+function getUrlWithCustomPort(): string {
     return UrlBuilder
         .https('www.travel.eu')
         .port(5001)
         .toString();
 }
 
-function getUrlWithCustomPortAndPathAndQueries() {
+function getUrlWithCustomPortAndPathAndQueries(): string {
     return UrlBuilder
         .https('www.travel.eu')
         .port(5001)
@@ -52,7 +52,7 @@ function getUrlWithCustomPortAndPathAndQueries() {
         .toString();
 }
 
-function usingSameBuilderInstance() {
+function usingSameBuilderInstance(): string[] {
     const builder = UrlBuilder
         .https('www.travel.eu')
         .path(['countries', 'romania']);

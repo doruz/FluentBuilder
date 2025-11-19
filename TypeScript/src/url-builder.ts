@@ -1,15 +1,14 @@
-import { UrlProtocols } from './url-constants.js';
-import UrlValues from './url-values.js';
+import { UrlProtocols } from './url-constants.ts';
+import UrlValues from './url-values.ts';
 
 export default class UrlBuilder {
-    private constructor(private readonly values: UrlValues) {
-    }
+    private constructor(private readonly values: UrlValues) { }
 
     /**
      * Creates a new instance of http url builder.
      * @param {string} host 
      */
-    public static http = (host: string) => new UrlBuilder(new UrlValues(UrlProtocols.http, host));
+    public static http = (host: any) => new UrlBuilder(new UrlValues(UrlProtocols.http, host));
 
     /**
      * Creates a new instance of https url builder.
