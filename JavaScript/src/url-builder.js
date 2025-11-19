@@ -6,6 +6,7 @@ export default class UrlBuilder {
     #host;
     #port = null;
     #pathSegments = [];
+    #queryParams = new Map();
 
     /**
      * Creates a new instance of url builder.
@@ -13,8 +14,8 @@ export default class UrlBuilder {
      * @param {string} host
      */
     constructor(protocol, host) {
-        this.#protocol = protocol;
-        this.#host = host;
+        this.#protocol = UrlValidations.ensureIsNotEmpty(protocol, 'protocol');
+        this.#host = UrlValidations.ensureIsNotEmpty(host, 'host');
     }
 
     /**
@@ -69,11 +70,27 @@ export default class UrlBuilder {
         return this;
     }
 
-    toString() {
-        return this.#getFormmattedSegments();
+    query(key, value) {
+        UrlValidations.ensureIsNotEmpty(key, 'key');
+        UrlValidations.ensureIsNotEmpty(value, 'value');
+
+        this.#queryParams[key] = value;
+
+        return this;
     }
 
-    #getFormmattedSegments() {
+    toString() {
+        const addressAndPath = this.#getFormattedAddressAndPath();
+        const queries = this.#getFormattedQueryParams();
+
+        if (queries) {
+            return `${addressAndPath}?${queries}`;
+        }
+
+        return addressAndPath;
+    }
+
+    #getFormattedAddressAndPath() {
         return [this.#getFormattedAddress(), ...this.#pathSegments].join('/');
     }
 
@@ -83,5 +100,15 @@ export default class UrlBuilder {
         return this.#port === null
             ? `${this.#protocol}://${this.#host}`
             : `${this.#protocol}://${this.#host}:${this.#port}`;
+    }
+
+    #getFormattedQueryParams() {
+        const queries = [];
+
+        for (const key in this.#queryParams) {
+            queries.push(`${key}=${this.#queryParams[key]}`);
+        }
+
+        return queries.join('&');
     }
 }
