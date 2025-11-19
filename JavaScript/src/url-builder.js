@@ -9,30 +9,40 @@ export default class UrlBuilder {
     }
 
     /**
-     * Creates a new instance of http url builder
+     * Creates a new instance of http url builder.
      * @param {string} host 
-     * @returns {UrlBuilder} urlBuilder
      */
     static http = (host) => new UrlBuilder(new UrlValues(UrlProtocols.http, host));
 
     /**
-     * Creates a new instance of https url builder
+     * Creates a new instance of https url builder.
      * @param {string} host 
-     * @returns {UrlBuilder} urlBuilder
      */
     static https = (host) => new UrlBuilder(new UrlValues(UrlProtocols.https, host));
 
     /**
-     * Set port in case it is different than default (http: 80, https:443).
+     * Sets url port.
+     * Port is configured only if it is different than implicit values (http:80, https:443).
      * @param {number} port
-     * @returns 
      */
     port = (port) => new UrlBuilder(this.#values.updatePort(port));
 
+    /**
+     * Sets url paths segments.
+     * @param {string[]} pathSegments
+     */
     path = (pathSegments) => new UrlBuilder(this.#values.updatePath(pathSegments));
 
+    /**
+     * Sets url query parameter.
+     * @param {string} key 
+     * @param {string} value 
+     */
     query = (key, value) => new UrlBuilder(this.#values.updateQuery(key, value));
 
+    /**
+     * Build the full url with the provided values.
+     */
     toString() {
         const addressAndPath = this.#getFormattedAddressAndPath();
         const queries = this.#getFormattedQueryParams();
