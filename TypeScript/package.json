@@ -5,8 +5,8 @@
     "scripts": {
         "clean": "rimraf dist",
         "build": "npm run clean && tsc",
-        "start": "node --experimental-transform-types ./src/main.ts",
-        "test": "node --test --experimental-transform-types tests/**/*.test.ts"
+        "start": "node --import=tsx ./src/main.ts",
+        "test": "node --import=tsx --test tests/**/*.test.ts"
     },
     "exclude": [
         "node_modules"
@@ -17,6 +17,7 @@
         "@types/node": "24.10.1",
         "rimraf": "6.1.0",
         "ts-loader": "9.5.4",
+        "tsx": "4.20.6",
         "typescript": "5.9.3"
     }
 }
