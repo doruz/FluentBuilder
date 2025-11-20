@@ -4,9 +4,8 @@
     "type": "module",
     "main": "main.js",
     "scripts": {
-        "start": "node src/main.js",
-        "test": "node --test",
-        "test:watch": "node --test --watch"
+        "start": "node ./src/main.js",
+        "test": "node --test"
     },
     "exclude": [
         "node_modules"
