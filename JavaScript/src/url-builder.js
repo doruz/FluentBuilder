@@ -29,9 +29,9 @@ export default class UrlBuilder {
 
     /**
      * Sets url paths segments.
-     * @param {string[]} pathSegments
+     * @param {string[]} segments
      */
-    path = (pathSegments) => new UrlBuilder(this.#values.updatePath(pathSegments));
+    path = (segments) => new UrlBuilder(this.#values.updatePath(segments));
 
     /**
      * Sets url query parameter.

@@ -1,21 +1,16 @@
 {
-  "name": "fluent-builder-url",
-  "version": "1.0.0",
-  "type": "module",
-  "main": "main.js",
-  "scripts": {
-    "start": "node src/main.js",
-    "test": "jest"
-  },
-  "exclude": [
-    "node_modules"
-  ],
-  "jest": {
-    "transform": {}
-  },
-  "author": "Doru Zanet",
-  "description": "Fluent Builder example in JavaScript",
-  "devDependencies": {
-    "jest": "30.2.0"
-  }
+    "name": "fluent-builder-url",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "main.js",
+    "scripts": {
+        "start": "node src/main.js",
+        "test": "node --test",
+        "test:watch": "node --test --watch"
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "author": "Doru Zanet",
+    "description": "Fluent Builder example in JavaScript"
 }
