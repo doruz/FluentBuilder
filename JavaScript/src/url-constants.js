@@ -1,7 +1,8 @@
-export class UrlProtocols {
-    static http = 'http';
-    static https = 'https';
-}
+export const UrlProtocols = Object.freeze({
+    http: 'http',
+    https: 'https'
+});
+
 
 export class UrlPorts {
     static #minAllowed = 1;
