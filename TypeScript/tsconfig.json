@@ -1,0 +1,48 @@
+{
+    "include": ["./src"],
+    "exclude": [ "./tests" ],
+
+    "compilerOptions": {
+        "rootDir": "src",
+        "outDir": "dist",
+
+        "module": "nodenext",
+        "target": "esnext",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+
+        "declaration": false,
+        "declarationMap": false,
+
+        "experimentalDecorators": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "verbatimModuleSyntax": true,
+        "isolatedModules": true,
+        "moduleDetection": "force",
+
+        "allowUnreachableCode": false,
+        "allowJs": false,
+        "alwaysStrict": true,
+        "noImplicitAny": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noUncheckedSideEffectImports": true,
+
+        "strict": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+
+        "removeComments": true,
+        "sourceMap": false,
+        "forceConsistentCasingInFileNames": true,
+        "suppressExcessPropertyErrors": false,
+        "suppressImplicitAnyIndexErrors": false,
+        "rewriteRelativeImportExtensions": true
+    }
+}

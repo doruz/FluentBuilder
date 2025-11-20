@@ -1,0 +1,23 @@
+{
+    "name": "fluent-builder-url",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "clean": "rimraf dist",
+        "build": "npm run clean && tsc",
+        "start": "node --import=tsx ./src/main.ts",
+        "tests": "node --import=tsx --test tests/**/*.test.ts"
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "author": "Doru Zanet",
+    "description": "Fluent Builder example in TypeScript",
+    "devDependencies": {
+        "@types/node": "24.10.1",
+        "rimraf": "6.1.0",
+        "ts-loader": "9.5.4",
+        "tsx": "4.20.6",
+        "typescript": "5.9.3"
+    }
+}

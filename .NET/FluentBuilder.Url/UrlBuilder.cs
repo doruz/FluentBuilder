@@ -4,7 +4,7 @@ public sealed record UrlBuilder : IUrlBuilder
 {
     private readonly string _protocol;
     private readonly string _host;
-    
+
     private ushort? _port;
     private List<string> _segments = [];
     private SortedDictionary<string, string> _queries = [];
@@ -21,7 +21,8 @@ public sealed record UrlBuilder : IUrlBuilder
     public static UrlBuilder Http(string host) => new(UrlProtocols.Http, host);
     public static UrlBuilder Https(string host) => new(UrlProtocols.Https, host);
 
-    public IUrlPath OnPort(ushort port)
+    // TODO: to rename, Port, Path, Query
+    public IUrlPath Port(ushort port)
     {
         port.EnsurePortIsValid();
 
@@ -36,7 +37,7 @@ public sealed record UrlBuilder : IUrlBuilder
         };
     }
 
-    public IUrlPath WithPath(params string[] segments)
+    public IUrlPath Path(params string[] segments)
     {
         foreach (var segment in segments)
         {
@@ -47,11 +48,11 @@ public sealed record UrlBuilder : IUrlBuilder
 
         return this with
         {
-            _segments = [.._segments, ..segments]
+            _segments = [.. _segments, .. segments]
         };
     }
 
-    public IUrlQueries WithQuery(string key, string value)
+    public IUrlQueries Query(string key, string value)
     {
         key.EnsureIsNotEmpty(nameof(key));
         value.EnsureIsNotEmpty(nameof(value));

@@ -1,0 +1,74 @@
+import UrlBuilder from './url-builder.ts';
+
+const examples = [
+    getSimpleUrl(),
+    getUrlWithPath(),
+    getUrlWithPathAndQueries(),
+    '',
+    getUrlWithCustomPort(),
+    getUrlWithCustomPortAndPathAndQueries(),
+    '',
+    ...usingSameBuilderInstance(),
+    ''
+];
+examples.forEach(url => console.log(url));
+
+function getSimpleUrl() {
+    return UrlBuilder
+        .https('www.travel.eu')
+        .toString();
+}
+
+function getUrlWithPath(): string {
+    return UrlBuilder
+        .https('www.travel.eu')
+        .path(['countries', 'romania'])
+        .path(['cities', 'iasi'])
+        .toString();
+}
+
+function getUrlWithPathAndQueries(): string {
+    return UrlBuilder
+        .https('www.travel.eu')
+        .path(['countries', 'romania', 'cities', 'iasi'])
+        .query('type', 'nature')
+        .query('lang', 'en')
+        .toString();
+}
+
+function getUrlWithCustomPort(): string {
+    return UrlBuilder
+        .https('www.travel.eu')
+        .port(5001)
+        .toString();
+}
+
+function getUrlWithCustomPortAndPathAndQueries(): string {
+    return UrlBuilder
+        .https('www.travel.eu')
+        .port(5001)
+        .path(['countries', 'romania'])
+        .query('lang', 'en')
+        .toString();
+}
+
+function usingSameBuilderInstance(): string[] {
+    const builder = UrlBuilder
+        .https('www.travel.eu')
+        .path(['countries', 'romania']);
+
+    return [
+        builder
+            .query('type', 'nature')
+            .query('lang', 'en')
+            .toString(),
+
+        builder
+            .path(['cities', 'iasi'])
+            .toString(),
+
+        builder
+            .query('type', 'nature')
+            .toString()
+    ];
+}
