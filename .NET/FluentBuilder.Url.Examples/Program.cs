@@ -12,20 +12,19 @@ string GetSimpleUrl() => UrlBuilder
 
 string GetSimpleUrlWithCustomPort() => UrlBuilder
     .Https("www.travel.eu")
-    .OnPort(5001)
+    .Port(5001)
     .ToString();
 
 string GetUrlWithPath() => UrlBuilder
     .Https("www.travel.eu")
-    .WithPath("countries")
-    .WithPath("romania")
+    .Path("countries", "romania")
     .ToString();
 
 string GetUrlWithPathAndQueries() => UrlBuilder
     .Https("www.travel.eu")
-    .WithPath("countries", "romania")
-    .WithQuery("type", "nature")
-    .WithQuery("lang", "en")
+    .Path("countries", "romania")
+    .Query("type", "nature")
+    .Query("lang", "en")
     .ToString();
 
 void UsingSameBuilderInstance()
@@ -34,15 +33,15 @@ void UsingSameBuilderInstance()
 
     var builder = UrlBuilder
         .Https("www.travel.eu")
-        .WithPath("countries", "romania");
+        .Path("countries", "romania");
 
     Console.WriteLine(builder
-        .WithPath("cities", "iasi")
+        .Path("cities", "iasi")
         .ToString());
 
     Console.WriteLine(builder
-        .WithQuery("type", "nature")
-        .WithQuery("lang", "en")
+        .Query("type", "nature")
+        .Query("lang", "en")
         .ToString()
     );
 }

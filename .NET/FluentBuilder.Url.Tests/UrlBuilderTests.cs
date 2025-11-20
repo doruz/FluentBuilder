@@ -70,7 +70,7 @@ public abstract class UrlBuilderTests
 
         // Act
         var actual = Host("www.travel.eu")
-            .OnPort(DefaultPort)
+            .Port(DefaultPort)
             .ToString();
 
         // Assert
@@ -85,7 +85,7 @@ public abstract class UrlBuilderTests
 
         // Act
         var actual = Host("www.travel.eu")
-            .OnPort(5001)
+            .Port(5001)
             .ToString();
 
         // Assert
@@ -96,8 +96,8 @@ public abstract class UrlBuilderTests
     [MemberData(nameof(EmptyValues))]
     public void When_AddingInvalidPath_Should_ThrowException(string path)
     {
-        Assert.Throws<ArgumentException>(() => Host("www.travel.eu").WithPath([path]));
-        Assert.Throws<ArgumentException>(() => Host("www.travel.eu").WithPath("countries", path));
+        Assert.Throws<ArgumentException>(() => Host("www.travel.eu").Path([path]));
+        Assert.Throws<ArgumentException>(() => Host("www.travel.eu").Path("countries", path));
     }
 
     [Fact]
@@ -108,8 +108,8 @@ public abstract class UrlBuilderTests
 
         // Act
         var actual = Host("www.travel.eu")
-            .WithPath("countries", "romania")
-            .WithPath("cities", "iasi")
+            .Path("countries", "romania")
+            .Path("cities", "iasi")
             .ToString();
 
         // Assert
@@ -124,7 +124,7 @@ public abstract class UrlBuilderTests
 
         // Act
         var actual = Host("www.travel.eu")
-            .WithPath("~a-1_c.2")
+            .Path("~a-1_c.2")
             .ToString();
 
         // Assert
@@ -135,7 +135,7 @@ public abstract class UrlBuilderTests
     [MemberData(nameof(InvalidQueries))]
     public void When_AddingInvalidQuery_Should_ThrowException(string key, string value)
     {
-        Assert.Throws<ArgumentException>(() => Host("www.travel.eu").WithQuery(key, value));
+        Assert.Throws<ArgumentException>(() => Host("www.travel.eu").Query(key, value));
     }
 
     [Fact]
@@ -146,7 +146,7 @@ public abstract class UrlBuilderTests
 
         // Act
         var actual = Host("www.travel.eu")
-            .WithQuery("lang", "en")
+            .Query("lang", "en")
             .ToString();
 
         // Assert
@@ -161,7 +161,7 @@ public abstract class UrlBuilderTests
 
         // Act
         var actual = Host("www.travel.eu")
-            .WithQuery("~a-1_c.2", "~1-a_2.c")
+            .Query("~a-1_c.2", "~1-a_2.c")
             .ToString();
 
         // Assert
@@ -176,8 +176,8 @@ public abstract class UrlBuilderTests
 
         // Act
         var actual = Host("www.travel.eu")
-            .WithQuery("lang", "en")
-            .WithQuery("lang", "ro")
+            .Query("lang", "en")
+            .Query("lang", "ro")
             .ToString();
 
         // Assert
@@ -192,8 +192,8 @@ public abstract class UrlBuilderTests
 
         // Act
         var actual = Host("www.travel.eu")
-            .WithQuery("type", "nature")
-            .WithQuery("lang", "en")
+            .Query("type", "nature")
+            .Query("lang", "en")
             .ToString();
 
         // Assert
@@ -208,9 +208,9 @@ public abstract class UrlBuilderTests
 
         // Act
         var actual = Host("www.travel.eu")
-            .WithPath("countries", "romania")
-            .WithQuery("type", "nature")
-            .WithQuery("lang", "en")
+            .Path("countries", "romania")
+            .Query("type", "nature")
+            .Query("lang", "en")
             .ToString();
 
         // Assert
@@ -225,10 +225,10 @@ public abstract class UrlBuilderTests
 
         // Act
         var actual = Host("www.travel.eu")
-            .OnPort(5001)
-            .WithPath("countries", "romania")
-            .WithQuery("type", "nature")
-            .WithQuery("lang", "en")
+            .Port(5001)
+            .Path("countries", "romania")
+            .Query("type", "nature")
+            .Query("lang", "en")
             .ToString();
 
         // Assert
@@ -243,9 +243,9 @@ public abstract class UrlBuilderTests
 
         // Act
         var actual = Host("Www.TRAVEL.eU")
-            .WithPath("Countries").WithPath("RomaniA")
-            .WithQuery("TypE", "NaturE")
-            .WithQuery("Lang", "EN")
+            .Path("Countries").Path("RomaniA")
+            .Query("TypE", "NaturE")
+            .Query("Lang", "EN")
             .ToString();
 
         // Assert
@@ -256,18 +256,18 @@ public abstract class UrlBuilderTests
     public void When_UsingSameBuilderInstance_Should_BeImmutable()
     {
         // Arrange
-        var builder = Host("www.travel.eu").WithPath("countries", "romania");
+        var builder = Host("www.travel.eu").Path("countries", "romania");
 
         // Assert #1
         Assert.Equal(
             GetExpected("www.travel.eu/countries/romania/cities/iasi"),
-            builder.WithPath("cities", "iasi").ToString()
+            builder.Path("cities", "iasi").ToString()
         );
 
         // Assert #2
         Assert.Equal(
             GetExpected("www.travel.eu/countries/romania?lang=en"),
-            builder.WithQuery("lang", "en").ToString()
+            builder.Query("lang", "en").ToString()
         );
     }
 }

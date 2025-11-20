@@ -1,47 +1,33 @@
 # FluentBuilder
 
-An implementation of the fluent builder design pattern for creating urls.
-
+Contains implementations of the fluent builder design pattern for creating urls.
 
 ```csharp
 // https://www.travel.eu/countries/romania
 
-UrlBuilder.Https("www.travel.eu")
-    .WithPath("countries")
-    .WithPath("romania")
-    .ToString();
-
-UrlBuilder.Https("www.travel.eu")
-    .WithPath("countries", "romania")
+UrlBuilder
+    .Https("www.travel.eu")
+    .Path("countries", "romania")
     .ToString();
 ```
 
 ```csharp
 // https://www.travel.eu:5001/countries/romania
 
-UrlBuilder.Https("www.travel.eu")
-    .OnPort(5001)
-    .WithPath("countries", "romania")
+UrlBuilder
+    .Https("www.travel.eu")
+    .Port(5001)
+    .Path("countries", "romania")
     .ToString();
 ```
 
 ```csharp
 // https://www.travel.eu/countries/romania?lang=en&type=nature
 
-UrlBuilder.Https("www.travel.eu")
-    .WithPath("countries", "romania")
-    .WithQuery("lang", "en")
-    .WithQuery("type", "nature")
-    .ToString();
-```
-
-
-```csharp
-// https://www.travel.eu/countries/romania?lang=en&type=nature
-
-UrlBuilder.Https("www.travel.eu")
-    .WithPath("countries", "romania")
-    .WithQuery("lang", "en")
-    .WithQuery("type", "nature")
+UrlBuilder
+    .Https("www.travel.eu")
+    .Path("countries", "romania")
+    .Query("lang", "en")
+    .Query("type", "nature")
     .ToString();
 ```

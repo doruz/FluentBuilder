@@ -2,17 +2,17 @@
 
 public interface IUrlBuilder : IUrlPath
 {
-    IUrlPath OnPort(ushort port);
+    IUrlPath Port(ushort port);
 }
 
 public interface IUrlPath : IUrlQueries
 {
-    IUrlPath WithPath(params string[] segments);
+    IUrlPath Path(params string[] segments);
 }
 
 public interface IUrlQueries : IUrl
 {
-    IUrlQueries WithQuery(string key, string value);
+    IUrlQueries Query(string key, string value);
 }
 
 public interface IUrl
