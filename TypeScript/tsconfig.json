@@ -1,4 +1,6 @@
 {
+    "exclude": ["tests"],
+
     "compilerOptions": {
         "rootDir": "src",
         "outDir": "dist",
