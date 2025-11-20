@@ -1,26 +1,9 @@
 # FluentBuilder
 
-Contains implementations of the fluent builder design pattern for creating urls.
 
-```csharp
-// https://www.travel.eu/countries/romania
+Examples of the fluent builder design pattern for creating urls.
 
-UrlBuilder
-    .Https("www.travel.eu")
-    .Path("countries", "romania")
-    .ToString();
-```
-
-```csharp
-// https://www.travel.eu:5001/countries/romania
-
-UrlBuilder
-    .Https("www.travel.eu")
-    .Port(5001)
-    .Path("countries", "romania")
-    .ToString();
-```
-
+### .NET
 ```csharp
 // https://www.travel.eu/countries/romania?lang=en&type=nature
 
@@ -30,4 +13,16 @@ UrlBuilder
     .Query("lang", "en")
     .Query("type", "nature")
     .ToString();
+```
+
+### JavaScript & TypeScript
+```js
+// https://www.travel.eu/countries/romania?lang=en&type=nature
+
+UrlBuilder
+    .https("www.travel.eu")
+    .path(["countries", "romania"])
+    .query('lang', 'en')
+    .query('type', 'nature')
+    .toString();
 ```

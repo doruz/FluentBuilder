@@ -31,15 +31,3 @@ UrlBuilder
     .query('type', 'nature')
     .toString();
 ```
-
-```js
-// https://www.travel.eu:5001/countries/romania?lang=en&type=nature
-
-UrlBuilder
-    .https("www.travel.eu")
-    .port(5001)
-    .path(["countries", "romania"])
-    .query('lang', 'en')
-    .query('type', 'nature')
-    .toString();
-```
