@@ -14,7 +14,7 @@ defaults:
     
 jobs:
   build:
-    name: Check Solution
+    name: Gated
     runs-on: ubuntu-latest
       
     steps:

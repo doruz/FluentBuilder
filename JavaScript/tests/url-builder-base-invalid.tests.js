@@ -84,3 +84,11 @@ export default function urlBuilderInvalidTests(host) {
         });
     });
 };
+
+
+// TODO: testing githug workflow
+describe(`testing gated`, () => {
+    it('should fails', () => {
+        assert.strictEqual(1, 2);
+    });
+});

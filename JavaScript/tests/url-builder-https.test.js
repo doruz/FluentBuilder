@@ -1,3 +1,4 @@
+import { assert } from 'node:console';
 import UrlBuilder from '../src/url-builder.js';
 
 import urlBuilderInvalidTests from './url-builder-base-invalid.tests.js';

@@ -86,3 +86,10 @@ export default function urlBuilderInvalidTests(host: (address: string) => UrlBui
         });
     });
 };
+
+// TODO: testing githug workflow
+describe(`testing gated`, () => {
+    it('should fails', () => {
+        assert.strictEqual(1, 2);
+    });
+});

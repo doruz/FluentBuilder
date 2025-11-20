@@ -1,0 +1,34 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+    paths: [ "TypeScript/**" ]
+  pull_request:
+    branches: [ "main" ]
+    paths: [ "TypeScript/**" ]
+
+defaults:
+  run:
+    working-directory: ./TypeScript
+    
+jobs:
+  build:
+    name: Gated
+    runs-on: ubuntu-latest
+      
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: latest
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build Solution
+      run: npm run build
+
+    - name: Running Unit Tests
+      run: npm run tests
