@@ -3,7 +3,7 @@
 
 Examples of the fluent builder design pattern for creating urls.
 
-### .NET
+### C#
 ```csharp
 // https://www.travel.eu/countries/romania?lang=en&type=nature
 

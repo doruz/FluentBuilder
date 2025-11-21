@@ -1,4 +1,4 @@
-# Fluent Builder in .NET
+# Fluent Builder in C#
 
 An example of the fluent builder design pattern for creating urls.
 
