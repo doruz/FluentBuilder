@@ -1,6 +1,6 @@
 {
     "include": ["./src"],
-    "exclude": [ "./tests" ],
+    "exclude": ["./tests"],
 
     "compilerOptions": {
         "rootDir": "src",

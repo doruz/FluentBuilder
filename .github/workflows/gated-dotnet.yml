@@ -3,14 +3,14 @@ name: .NET
 on:
   push:
     branches: [ "main" ]
-    paths: [ ".NET/**" ]
+    paths: [ "CSharp/**" ]
   pull_request:
     branches: [ "main" ]
-    paths: [ ".NET/**" ]
+    paths: [ "CSharp/**" ]
 
 defaults:
   run:
-    working-directory: ./.NET
+    working-directory: ./CSharp
     
 jobs:
   build:
