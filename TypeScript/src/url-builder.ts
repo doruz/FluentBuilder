@@ -8,7 +8,7 @@ export default class UrlBuilder {
      * Creates a new instance of http url builder.
      * @param {string} host 
      */
-    public static http = (host: any) => new UrlBuilder(new UrlValues(UrlProtocols.http, host));
+    public static http = (host: string) => new UrlBuilder(new UrlValues(UrlProtocols.http, host));
 
     /**
      * Creates a new instance of https url builder.
